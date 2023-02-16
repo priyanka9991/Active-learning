@@ -213,7 +213,10 @@ def predict_random(models, X_test, Y_test, feat, num_add, random_sample_ratio=0)
     pred['score'] = -np.abs(pred['mean']-pred['AUC']) + kappa * pred['std']
     pred.insert(loc=0, column = 'Sample', value = X_test['Sample'].values)
     #pred = pred.sort_values(by = ['score'], ascending=False)
-    num_samples_add = round((random_sample_ratio)*num_add)
+    if random_sample_ratio == 0:
+        num_samples_add = num_add
+    else:
+        num_samples_add = round((random_sample_ratio)*num_add)
     if len(pred)<=num_samples_add:
         pred_select = pred
         last = True
