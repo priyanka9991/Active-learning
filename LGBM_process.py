@@ -231,6 +231,8 @@ def predict_random(models, X_test, Y_test, feat, num_add, random_sample_ratio=0)
 def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
     rmse_hold_out = []
     r2_hold_out = []
+    auc_pred_al = []
+    auc_pred_rs = []
     last = False
     X = feat.drop(columns=['AUC'])
     Y = feat['AUC'].astype(float)
@@ -272,6 +274,7 @@ def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
             test_new = test_new[~test_new.Sample.isin(pred_select['Sample'])]
             X_test = test_new.drop(columns = ['AUC'])
             Y_test = test_new['AUC']
+            auc_pred_al.append(list(-pred_select['AUC'].values))
 
         if params['hybrid_sample']: # For hybrid sample strategy
             X_new_r, Y_new_r, pred_select_r, rmse_r, last = predict_random(models, X_test, Y_test, feat, params['num_add'],random_sample_ratio=random_sample_ratio)
@@ -288,6 +291,7 @@ def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
             test_new = test_new[~test_new.Sample.isin(pred_select['Sample'])]
             X_test = test_new.drop(columns = ['AUC'])
             Y_test = test_new['AUC']
+            auc_pred_al.append(list(-(pd.concat([pred_select['AUC'], pred_select_r['AUC']])).values))
 
         rmse_h, r2_h = predict_hold_out(models, X_hold_out, Y_hold_out)
         rmse_hold_out.append(np.mean(rmse_h))
@@ -314,6 +318,7 @@ def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
         rmse_h, r2_h = predict_hold_out(models, X_hold_out, Y_hold_out)
         rmse_hold_out_random.append(np.mean(rmse_h))
         r2_hold_out_random.append(np.mean(r2_h))
+        auc_pred_rs.append(list(-pred_select['AUC'].values))
     output = params
     output['num_leaves'] = num_leaves
     output['seeds'] = seeds
@@ -321,6 +326,8 @@ def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
     output['r2_hold_out'] = r2_hold_out
     output['rmse_hold_out_random'] = rmse_hold_out_random
     output['r2_hold_out_random'] = r2_hold_out_random
+    output['query_auc_al'] = auc_pred_al
+    output['query_auc_rs'] = auc_pred_rs
     with open(save_dir + "/"+ savename, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=4)
 
