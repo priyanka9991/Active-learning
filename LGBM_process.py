@@ -272,13 +272,17 @@ def ensemble_process(feat,params, num_leaves, seeds, save_dir, savename):
 
         if params['hybrid_sample']: # For hybrid sample strategy
             X_new_r, Y_new_r, pred_select_r, rmse_r, last = predict_random(models, X_test, Y_test, feat, params['num_add'],random_sample_ratio=random_sample_ratio)
+            test_new = X_test
+            test_new['AUC'] = Y_test
+            test_new = test_new[~test_new.Sample.isin(pred_select_r['Sample'])]
+            X_test = test_new.drop(columns = ['AUC'])
+            Y_test = test_new['AUC']
             X_new, Y_new, pred_select, rmse, r2, last = predict(models, X_test, Y_test, feat,params['num_add'], params['kappa'], random_sample_ratio=random_sample_ratio)
             X_train = pd.concat([X_train, X_new, X_new_r])
             Y_train = pd.concat([Y_train, Y_new, Y_new_r])
             test_new = X_test
             test_new['AUC'] = Y_test
             test_new = test_new[~test_new.Sample.isin(pred_select['Sample'])]
-            test_new = test_new[~test_new.Sample.isin(pred_select_r['Sample'])]
             X_test = test_new.drop(columns = ['AUC'])
             Y_test = test_new['AUC']
 
