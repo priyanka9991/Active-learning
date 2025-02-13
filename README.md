@@ -18,5 +18,15 @@ R2_filter: True to filter response data using R2 fit of dose response curve
 hybrid_iter: True if you need hybrid strategy where few of initial iterations are from random sampling and rest from active learning. Also change the parameter - 'hybrid_random_itr_ratio' to set the iteration ratio
 hybrid_sample: True if you need hybrid strategy where some samples are from random sampling in every iteration. Also change the parameter 'hybrid_random_sample_ratio' to set the ratio
 expt_name: Name of the experiment
+
+2. lgbm_process.py - Contains functions to run the LightGBM model
+
+3. svm_process.py - Contains functions to run the Support Vector Regression model
+
+3. dnn_process.py - Contains functions to run the DNN model
+
+4. DNN_hypermodel.py - Contains PyTorch model architecture
+
+5. dnn_model_optimization.py - Script used to optimize the DNN model architecture
 ```
 
