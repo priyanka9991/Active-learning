@@ -30,3 +30,32 @@ expt_name: Name of the experiment
 5. dnn_model_optimization.py - Script used to optimize the DNN model architecture
 ```
 
+## Input Data
+To run experiments you need the following data:
+```
+Data/Cell_Line_Drug_Screening_Data/
+├── Gene_Expression_Data
+│   ├── combined_rnaseq_data_combat
+│   ├── lincs1000_list.txt
+└── Response_Data
+    └── drug_response_data.txt
+
+Data/CSA_data/
+├── data.ccle
+│   ├── mordred_ccle.csv
+├── data.ctrp
+│   ├── mordred_ctrp.csv
+├── data.gcsi
+│   ├── mordred_gcsi.csv
+├── data.gdsc1
+│   ├── mordred_gdsc1.csv
+├── data.gdsc2
+│   ├── mordred_gdsc2.csv
+```
+
+## To Run experiments:
+```bash
+python active_learning_process.py
+```
+
+
