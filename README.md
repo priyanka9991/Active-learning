@@ -6,7 +6,8 @@ Preclinical drug screening experiments for anti-cancer drug discovery typically 
 
 ## Script descriptions:   
 ```
-1.  active_learning_process.py - Script to run all active learning processess. Make sure to change the following parameter:
+1.  active_learning_process.py - Script to run all active learning processess. Make sure to change the following parameters:
+
 study: Cell-line study. eg: CTRPv2, GDSCv2, CCLE
 mode: 'drug' - drug specific, 'cell_line' - cell-line specific, 'both' - pan drug, pan cell-line
 model: 'lgbm' - LightGBM model, 'dnn'- DNN or 'svr' - Support Vector Regression
@@ -16,9 +17,6 @@ study2: Study name for cross-study testing
 R2_filter: True to filter response data using R2 fit of dose response curve
 hybrid_iter: True if you need hybrid strategy where few of initial iterations are from random sampling and rest from active learning. Also change the parameter - 'hybrid_random_itr_ratio' to set the iteration ratio
 hybrid_sample: True if you need hybrid strategy where some samples are from random sampling in every iteration. Also change the parameter 'hybrid_random_sample_ratio' to set the ratio
-
-
-
-
+expt_name: Name of the experiment
 ```
 
